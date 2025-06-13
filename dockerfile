@@ -20,4 +20,4 @@ RUN apt-get update && apt-get install -y jenkins
 
 EXPOSE 8080 
 
-CMD ["/usr/bin/jenkins"]
+CMD ["java", "-jar", "/usr/share/jenkins/jenkins.war"]
