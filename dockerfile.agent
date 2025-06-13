@@ -1,0 +1,21 @@
+FROM debian:bullseye
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    openjdk-17-jdk \
+    openssh-server \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create Jenkins user
+RUN useradd -m -s /bin/bash jenkins
+
+# Setup SSH
+RUN mkdir /home/jenkins/.ssh
+COPY jenkins_agent_key.pub /home/jenkins/.ssh/authorized_keys
+RUN chown -R jenkins:jenkins /home/jenkins/.ssh && chmod 700 /home/jenkins/.ssh && chmod 600 /home/jenkins/.ssh/authorized_keys
+
+# Start SSH on container start
+RUN mkdir /var/run/sshd
+EXPOSE 22
+
+CMD ["/usr/sbin/sshd", "-D"]

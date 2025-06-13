@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jenkins-agent
+  labels:
+    app: jenkins-agent
+spec:
+  containers:
+  - name: jenkins-agent
+    image: ashu304/ssh-jenkins
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 22
+    volumeMounts:
+    - name: ssh-volume
+      mountPath: /home/jenkins/.ssh
+  volumes:
+  - name: ssh-volume
+    emptyDir: {}

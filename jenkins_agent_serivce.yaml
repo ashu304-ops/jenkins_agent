@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-agent-ssh
+spec:
+  selector:
+    app: jenkins-agent   # Make sure this matches your pod's label
+  ports:
+    - protocol: TCP
+      port: 22           # Service port (inside cluster)
+      targetPort: 22     # Container's SSH port
+      nodePort: 32222    # External port on Minikube node (choose any 30000-32767)
+  type: NodePort
+
